@@ -12,7 +12,7 @@ set -e
 APP_DIR=/opt/xnkq-kanban
 SVC_NAME=kanban-auth
 PORT=8899
-DOMAIN=yunying.xnkq.net
+DOMAIN=xnkqyy.cn
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "=============================================="
@@ -63,8 +63,8 @@ if ! command -v nginx >/dev/null 2>&1; then
 else
   echo "      已安装：$(nginx -v 2>&1 | head -1)"
 fi
-cp -f "$SCRIPT_DIR/nginx-yunying-kanban.conf" /etc/nginx/sites-available/yunying-kanban
-ln -sf /etc/nginx/sites-available/yunying-kanban /etc/nginx/sites-enabled/yunying-kanban
+cp -f "$SCRIPT_DIR/nginx-kanban.conf" /etc/nginx/sites-available/kanban
+ln -sf /etc/nginx/sites-available/kanban /etc/nginx/sites-enabled/kanban
 rm -f /etc/nginx/sites-enabled/default 2>/dev/null || true
 nginx -t && echo "      Nginx 配置校验通过"
 systemctl enable nginx >/dev/null 2>&1
