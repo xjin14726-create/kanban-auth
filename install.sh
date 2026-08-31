@@ -2,13 +2,13 @@
 # ---------------------------------------------------------------
 # 一键安装：从 GitHub 拉取鉴权服务文件并完成服务器环境搭建
 # 在 ECS 上以 root 执行：
-#   curl -fsSL https://raw.githubusercontent.com/xjin14726-create/kanban-auth/main/install.sh | bash
+#   curl -fsSL https://cdn.jsdelivr.net/gh/xjin14726-create/kanban-auth@v1.0.0/install.sh | bash
 # ---------------------------------------------------------------
 set -e
 
-# 用 jsDelivr CDN 下载（比 raw.githubusercontent.com 稳定，大文件不会被截断）
+# 用 jsDelivr CDN 下载（固定 Tag，从 jsDelivr 自有 CDN 完整分发，大文件不截断、安装可复现）
 CDN="https://cdn.jsdelivr.net/gh"
-AUTH_REPO="$CDN/xjin14726-create/kanban-auth@main"
+AUTH_REPO="$CDN/xjin14726-create/kanban-auth@v1.0.0"
 APP_DIR=/opt/xnkq-kanban
 TMP_DIR=/tmp/kanban-auth-$$
 
