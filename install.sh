@@ -26,7 +26,7 @@ command -v python3 >/dev/null 2>&1 || { echo "[错误] 未找到 python3"; exit 
 
 echo "[1/6] 下载鉴权服务文件"
 mkdir -p "$TMP_DIR"
-for f in auth_server.py nginx-yunying-kanban.conf kanban-auth.service \
+for f in auth_server.py nginx-kanban.conf kanban-auth.service \
          kanban.env.example allowlist.txt setup.sh; do
   curl -fsSL "$AUTH_REPO/$f" -o "$TMP_DIR/$f" && echo "      √ $f"
 done
@@ -68,8 +68,8 @@ if ! command -v nginx >/dev/null 2>&1; then
   export DEBIAN_FRONTEND=noninteractive
   apt-get update -qq && apt-get install -y -qq nginx
 fi
-cp -f "$TMP_DIR/nginx-yunying-kanban.conf" /etc/nginx/sites-available/yunying-kanban
-ln -sf /etc/nginx/sites-available/yunying-kanban /etc/nginx/sites-enabled/yunying-kanban
+cp -f "$TMP_DIR/nginx-kanban.conf" /etc/nginx/sites-available/kanban
+ln -sf /etc/nginx/sites-available/kanban /etc/nginx/sites-enabled/kanban
 rm -f /etc/nginx/sites-enabled/default 2>/dev/null || true
 nginx -t && echo "      √ Nginx 配置校验通过"
 systemctl enable nginx >/dev/null 2>&1
