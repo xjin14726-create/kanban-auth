@@ -6,7 +6,10 @@
 # ---------------------------------------------------------------
 set -e
 
-REPO_RAW="https://raw.githubusercontent.com/xjin14726-create/kanban-auth/main"
+# 用 jsDelivr CDN 下载（比 raw.githubusercontent.com 稳定，大文件不会被截断）
+CDN="https://cdn.jsdelivr.net/gh"
+AUTH_REPO="$CDN/xjin14726-create/kanban-auth@main"
+BOARD_REPO="$CDN/xjin14726-create/yunying-dashboard@main"
 APP_DIR=/opt/xnkq-kanban
 TMP_DIR=/tmp/kanban-auth-$$
 
@@ -21,12 +24,17 @@ fi
 
 command -v python3 >/dev/null 2>&1 || { echo "[错误] 未找到 python3"; exit 1; }
 
-echo "[1/6] 下载文件到 $TMP_DIR"
+echo "[1/6] 下载鉴权服务文件"
 mkdir -p "$TMP_DIR"
 for f in auth_server.py nginx-yunying-kanban.conf kanban-auth.service \
          kanban.env.example allowlist.txt setup.sh; do
-  curl -fsSL "$REPO_RAW/$f" -o "$TMP_DIR/$f" && echo "      √ $f"
+  curl -fsSL "$AUTH_REPO/$f" -o "$TMP_DIR/$f" && echo "      √ $f"
 done
+
+echo "[1.5/6] 下载看板页面"
+curl -fsSL "$BOARD_REPO/index.html" -o "$TMP_DIR/index.html" \
+  && echo "      √ index.html ($(stat -c%s "$TMP_DIR/index.html") 字节)" \
+  || echo "      ! 看板下载失败，稍后手动补传"
 
 echo "[2/6] 准备目录 $APP_DIR"
 mkdir -p "$APP_DIR/logs"
@@ -44,7 +52,13 @@ else
 fi
 chmod 600 "$APP_DIR/kanban.env"
 
-echo "[5/6] 白名单"
+echo "[5/6] 看板页面 + 白名单"
+[ -f "$APP_DIR/index.html" ] || cp -f "$TMP_DIR/index.html" "$APP_DIR/" 2>/dev/null
+if [ -f "$APP_DIR/index.html" ]; then
+  echo "      √ index.html ($(stat -c%s "$APP_DIR/index.html") 字节)"
+else
+  echo "      ! 缺少 index.html，需手动上传到 $APP_DIR/"
+fi
 [ -f "$APP_DIR/allowlist.txt" ] || cp -f "$TMP_DIR/allowlist.txt" "$APP_DIR/"
 echo "      √ allowlist.txt 就绪"
 
