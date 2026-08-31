@@ -9,7 +9,6 @@ set -e
 # 用 jsDelivr CDN 下载（比 raw.githubusercontent.com 稳定，大文件不会被截断）
 CDN="https://cdn.jsdelivr.net/gh"
 AUTH_REPO="$CDN/xjin14726-create/kanban-auth@main"
-BOARD_REPO="$CDN/xjin14726-create/yunying-dashboard@main"
 APP_DIR=/opt/xnkq-kanban
 TMP_DIR=/tmp/kanban-auth-$$
 
@@ -32,7 +31,7 @@ for f in auth_server.py nginx-kanban.conf kanban-auth.service \
 done
 
 echo "[1.5/6] 下载看板页面"
-curl -fsSL "$BOARD_REPO/index.html" -o "$TMP_DIR/index.html" \
+curl -fsSL "$AUTH_REPO/index.html" -o "$TMP_DIR/index.html" \
   && echo "      √ index.html ($(stat -c%s "$TMP_DIR/index.html") 字节)" \
   || echo "      ! 看板下载失败，稍后手动补传"
 
