@@ -1,0 +1,24 @@
+[Unit]
+Description=Southwest Stomatology Kanban Auth Service
+Documentation=file:/opt/xnkq-kanban/README.md
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/xnkq-kanban
+EnvironmentFile=/opt/xnkq-kanban/kanban.env
+ExecStart=/usr/bin/python3 /opt/xnkq-kanban/auth_server.py
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+# 安全加固
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
