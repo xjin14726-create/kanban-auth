@@ -337,7 +337,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         state = base64.urlsafe_b64encode(os.urandom(12)).decode().rstrip("=")
         redirect_uri = "%s://%s/callback" % (
             self.headers.get("X-Forwarded-Proto", "http"),
-            self.headers.get("Host", "yunying.xnkq.net"))
+            self.headers.get("Host", "xnkqyy.cn"))
         auth_url = ("https://open.weixin.qq.com/connect/oauth2/authorize"
                     "?appid=%s&redirect_uri=%s&response_type=code"
                     "&scope=snsapi_base&state=%s#wechat_redirect") % (
